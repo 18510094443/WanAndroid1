@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.project.fragment.ProjectListFragment">
+
+   <com.scwang.smartrefresh.layout.SmartRefreshLayout
+       android:layout_width="match_parent"
+       android:id="@+id/sml"
+       android:layout_height="match_parent">
+
+      <RelativeLayout
+          android:layout_width="match_parent"
+          android:layout_height="match_parent">
+         <android.support.v7.widget.RecyclerView
+             android:id="@+id/rv"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
+
+         <android.support.design.widget.FloatingActionButton
+             android:id="@+id/btn_main"
+             android:backgroundTint="@color/colorPrimary"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_alignParentRight="true"
+             android:layout_alignParentBottom="true"
+             android:src="@mipmap/icon_up_arrow"
+             app:elevation="15dp"
+             android:layout_margin="15dp"/>
+      </RelativeLayout>
+   </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+</LinearLayout>
