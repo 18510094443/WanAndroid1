@@ -21,8 +21,11 @@ import com.example.lenovo.wanandroid.R;
 import com.example.lenovo.wanandroid.app.Constants;
 import com.example.lenovo.wanandroid.base.BaseFragment;
 import com.example.lenovo.wanandroid.base.interfaces.IBasePresenter;
+import com.example.lenovo.wanandroid.utils.ACache;
 import com.example.lenovo.wanandroid.utils.SpUtil;
 import com.example.lenovo.wanandroid.utils.UIModeUtil;
+
+import java.io.File;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -57,6 +60,7 @@ public class SeetingFragment extends BaseFragment {
     @BindView(R.id.setting_other_group)
     CardView settingOtherGroup;
     Unbinder unbinder;
+    private File cacheFile;
 
     @Override
     protected IBasePresenter createpresenter() {
@@ -97,8 +101,18 @@ public class SeetingFragment extends BaseFragment {
                 }
             }
         });
-
         Wutu();
+        clearCache();
+    }
+
+    private void clearCache() {
+        cbSettingCache.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    ACache.deleteDir(cacheFile);
+                    tvSettingClear.setText(ACache.getCacheSize(cacheFile));
+            }
+        });
 
     }
 
@@ -113,5 +127,13 @@ public class SeetingFragment extends BaseFragment {
                 }
             }
         });
+    }
+
+
+    @Override
+    public void onResume() {
+        boolean img = (boolean) SpUtil.getParam("img", false);
+        cbSettingImage.setChecked(img);
+        super.onResume();
     }
 }

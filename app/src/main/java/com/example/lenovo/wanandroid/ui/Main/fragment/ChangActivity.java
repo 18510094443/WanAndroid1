@@ -20,6 +20,7 @@ import com.example.lenovo.wanandroid.ui.Main.acrivity.MainPageActivity;
 import com.example.lenovo.wanandroid.ui.Main.adapter.ChangAdapter;
 import com.example.lenovo.wanandroid.ui.project.acrivity.ProjectActivity;
 import com.example.lenovo.wanandroid.utils.CircularAnimUtil;
+import com.example.lenovo.wanandroid.utils.CommonUtils;
 import com.example.lenovo.wanandroid.utils.StatusBarManager;
 import com.example.lenovo.wanandroid.widget.FlowLayout;
 
@@ -92,8 +93,7 @@ public class ChangActivity extends BaseActivity<MainPresenter> implements MainCo
 //            TextView tv = new TextView(this);
             TextView tv = (TextView) LayoutInflater.from(context).inflate(R.layout.chang_shape, null);
             tv.setText(changBean.getData().get(i).getName());
-
-            if (i % 4 == 0) {
+           /* if (i % 4 == 0) {
                 tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
             } else if (i % 4 == 1) {
                 tv.setTextColor(ContextCompat.getColor(context, R.color.gold_title));
@@ -101,6 +101,16 @@ public class ChangActivity extends BaseActivity<MainPresenter> implements MainCo
                 tv.setTextColor(ContextCompat.getColor(context, R.color.light_red));
             } else if (i % 4 == 3) {
                 tv.setTextColor(ContextCompat.getColor(context, R.color.blue));
+            }*/
+//           tv.setBackgroundColor(CommonUtils.randomColor());
+            if (i % 4 == 0) {
+                tv.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+            } else if (i % 4 == 1) {
+                tv.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.orange));
+            } else if (i % 4 == 2) {
+                tv.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.green));
+            } else if (i % 4 == 3) {
+                tv.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.blue));
             }
             int finalI = i;
             tv.setOnClickListener(new View.OnClickListener() {

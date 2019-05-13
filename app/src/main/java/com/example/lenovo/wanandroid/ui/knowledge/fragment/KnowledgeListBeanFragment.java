@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,7 @@ import com.example.lenovo.wanandroid.ui.Main.acrivity.MainPageActivity;
 import com.example.lenovo.wanandroid.ui.knowledge.acrivity.KnowledgeActivity;
 import com.example.lenovo.wanandroid.ui.knowledge.adapter.KnowListBeanAdapter;
 import com.example.lenovo.wanandroid.utils.CircularAnimUtil;
+import com.example.lenovo.wanandroid.utils.HindMain;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
@@ -46,7 +48,6 @@ public class KnowledgeListBeanFragment extends BaseFragment<KnowledgePresenter> 
 
     @BindView(R.id.btn_main)
     FloatingActionButton btnMain;
-    Unbinder unbinder1;
     private int id;
     @BindView(R.id.rv)
     RecyclerView rv;
@@ -85,9 +86,14 @@ public class KnowledgeListBeanFragment extends BaseFragment<KnowledgePresenter> 
             @Override
             public void onRefresh(@NonNull RefreshLayout refreshLayout) {
                 page = 0;
+                knowListBeanAdapter.list.clear();
                 initData();
             }
         });
+//        TabLayout tab = getActivity().findViewById(R.id.tabLayout);
+//        FloatingActionButton flb = getActivity().findViewById(R.id.main_ft);
+        HindMain.hind(rv,btnMain);
+        //点击悬浮按钮回到顶部并显示隐藏的toolbar与底部导航栏
         //点击悬浮按钮回到顶部并显示隐藏的toolbar与底部导航栏
         btnMain.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +103,7 @@ public class KnowledgeListBeanFragment extends BaseFragment<KnowledgePresenter> 
 //                getActivity().findViewById(R.id.tabLayout).setVisibility(View.VISIBLE);
             }
         });
-        initRecy();
+//        initRecy();
     }
 
     @Override
@@ -139,7 +145,7 @@ public class KnowledgeListBeanFragment extends BaseFragment<KnowledgePresenter> 
 
     }
 
-    //下拉隐藏底部导航栏
+   /* //下拉隐藏底部导航栏
     private void initRecy() {
         rv.setOnTouchListener(new View.OnTouchListener() {
             public float mEndY;
@@ -204,5 +210,5 @@ public class KnowledgeListBeanFragment extends BaseFragment<KnowledgePresenter> 
                 public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
                     return false;
                 }
-            });
+            });*/
 }

@@ -17,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 public class KnowListBeanAdapter extends RecyclerView.Adapter {
 
-    List<KnowLedgeListBean.DataBean.DatasBean> list;
+    public List<KnowLedgeListBean.DataBean.DatasBean> list;
     private List<KnowledgeBean.DataBean> dataBeans;
     Context context;
     private OnItemClick li;

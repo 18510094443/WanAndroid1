@@ -15,7 +15,6 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
-    <!--
      bugly配置权限start
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -24,7 +23,6 @@
     <uses-permission
         android:name="android.permission.READ_LOGS"
         tools:ignore="ProtectedPermissions" />
-    -->
     <!-- bugly配置权限end -->
     <application
         android:name=".app.MyApp"
@@ -44,13 +42,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.Main.acrivity.MainPageActivity"
-            />
-        <activity android:name=".ui.knowledge.acrivity.KnowActivity" />
+            android:launchMode="singleInstance" />
+        <activity android:name=".ui.knowledge.acrivity.KnowActivity"
+            android:launchMode="singleInstance"/>
         //解析适配9.0系统
         <uses-library
             android:name="org.apache.http.legacy"
             android:required="false" />
-
         <activity android:name=".ui.wx.acrivity.WxActivity"
             android:launchMode="singleInstance"/>
         <activity android:name=".ui.knowledge.acrivity.KnowledgeActivity"
@@ -69,7 +67,11 @@
             android:launchMode="singleInstance"/>
         <activity android:name=".ui.Main.fragment.ChangActivity"
             android:launchMode="singleInstance"/>
-        <activity
+        <activity android:name=".ui.Main.acrivity.SerachActivity"
+            android:launchMode="singleInstance"></activity>
+        <meta-data android:value="5cc79a1d570df33b5d0004d7" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="Channel ID" android:name="UMENG_CHANNEL"/>
+        <!--<activity
             android:name="com.tencent.tauth.AuthActivity"
             android:launchMode="singleTask"
             android:noHistory="true">
@@ -94,7 +96,6 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity android:name=".ui.Main.acrivity.SerachActivity" />
         <activity android:name=".ui.navigation.acrivity.NavigationActivity" />
-        <activity android:name=".ui.Main.acrivity.ChangListActivity"></activity>
+        <activity android:name=".ui.Main.acrivity.ChangListActivity"></activity>-->
     </application>
-
 </manifest>

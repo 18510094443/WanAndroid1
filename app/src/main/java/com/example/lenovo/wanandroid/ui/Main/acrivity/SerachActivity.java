@@ -14,6 +14,7 @@ import com.example.lenovo.wanandroid.base.BaseActivity;
 import com.example.lenovo.wanandroid.interfaces.Main.SearchContract;
 import com.example.lenovo.wanandroid.model.bean.main.SearchBean;
 import com.example.lenovo.wanandroid.presenter.Main.SearchPresenter;
+import com.example.lenovo.wanandroid.utils.CommonUtils;
 import com.example.lenovo.wanandroid.widget.FlowLayout;
 
 import java.util.List;
@@ -72,7 +73,7 @@ public class SerachActivity extends BaseActivity<SearchPresenter> implements Sea
         for (int i = 0; i < data.size(); i++) {
             TextView tv = (TextView) LayoutInflater.from(context).inflate(R.layout.item_flow, null);
             tv.setText(data.get(i).getName());
-            if (i % 4 == 0) {
+            /*if (i % 4 == 0) {
                 tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
             } else if (i % 4 == 1) {
                 tv.setTextColor(ContextCompat.getColor(context, R.color.gold_title));
@@ -80,7 +81,17 @@ public class SerachActivity extends BaseActivity<SearchPresenter> implements Sea
                 tv.setTextColor(ContextCompat.getColor(context, R.color.light_red));
             } else if (i % 4 == 3) {
                 tv.setTextColor(ContextCompat.getColor(context, R.color.blue));
+            }*/
+            if (i % 4 == 0) {
+                tv.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.colorAccent));
+            } else if (i % 4 == 1) {
+                tv.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.orange));
+            } else if (i % 4 == 2) {
+                tv.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.green));
+            } else if (i % 4 == 3) {
+                tv.setBackgroundColor(ContextCompat.getColor(getApplicationContext(), R.color.blue));
             }
+//            tv.setBackgroundColor(CommonUtils.randomColor());
             fl.addView(tv);
         }
         

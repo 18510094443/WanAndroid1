@@ -6,12 +6,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -24,9 +23,9 @@ import com.example.lenovo.wanandroid.model.bean.wx.WxListBean;
 import com.example.lenovo.wanandroid.model.bean.wx.WxTabBean;
 import com.example.lenovo.wanandroid.presenter.wx.WxPresenter;
 import com.example.lenovo.wanandroid.ui.Main.acrivity.MainPageActivity;
-import com.example.lenovo.wanandroid.ui.wx.acrivity.WxActivity;
 import com.example.lenovo.wanandroid.ui.wx.adapter.WxAdapter;
 import com.example.lenovo.wanandroid.utils.CircularAnimUtil;
+import com.example.lenovo.wanandroid.utils.HindMain;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadMoreListener;
@@ -54,10 +53,9 @@ public class WxListFragment extends BaseFragment<WxPresenter> implements WxContr
     EditText searchName;
     @BindView(R.id.bt_search)
     Button btSearch;
-    Unbinder unbinder1;
     @BindView(R.id.btn_main)
     FloatingActionButton btnMain;
-    Unbinder unbinder2;
+    Unbinder unbinder1;
     private int id;
     private String name;
     private int page = 1;
@@ -86,7 +84,6 @@ public class WxListFragment extends BaseFragment<WxPresenter> implements WxContr
             @Override
             public void onLoadMore(@NonNull RefreshLayout refreshLayout) {
                 page++;
-                wxAdapter.list.clear();
                 initData();
 
             }
@@ -98,6 +95,9 @@ public class WxListFragment extends BaseFragment<WxPresenter> implements WxContr
                 initData();
             }
         });
+        TabLayout tab = getActivity().findViewById(R.id.tabLayout);
+//        FloatingActionButton flb = getActivity().findViewById(R.id.main_ft);
+        HindMain.hind(rv, tab, btnMain);
         //点击悬浮按钮回到顶部并显示隐藏的toolbar与底部导航栏
         btnMain.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +107,6 @@ public class WxListFragment extends BaseFragment<WxPresenter> implements WxContr
                 getActivity().findViewById(R.id.tabLayout).setVisibility(View.VISIBLE);
             }
         });
-        initRecy();
     }
 
     @Override
@@ -140,13 +139,13 @@ public class WxListFragment extends BaseFragment<WxPresenter> implements WxContr
             @Override
             public void OnItem(int pos) {
                 Intent intent = new Intent(getContext(), MainPageActivity.class);
-                intent.setClass(getContext(),MainPageActivity.class);
+                intent.setClass(getContext(), MainPageActivity.class);
                 intent.putExtra("title", datas.get(pos).getTitle());
                 intent.putExtra("link", datas.get(pos).getLink());
-                intent.putExtra("author",datas.get(pos).getAuthor());
-                intent.putExtra("chapterName",datas.get(pos).getChapterName()+"/"+datas.get(pos).getSuperChapterName());
-                intent.putExtra("niceDate",datas.get(pos).getNiceDate());
-                CircularAnimUtil.startActivity(getActivity(),intent,rv,R.color.colorPrimary);
+                intent.putExtra("author", datas.get(pos).getAuthor());
+                intent.putExtra("chapterName", datas.get(pos).getChapterName() + "/" + datas.get(pos).getSuperChapterName());
+                intent.putExtra("niceDate", datas.get(pos).getNiceDate());
+                CircularAnimUtil.startActivity(getActivity(), intent, rv, R.color.colorPrimary);
             }
         });
         sml.finishRefresh();
@@ -158,71 +157,4 @@ public class WxListFragment extends BaseFragment<WxPresenter> implements WxContr
         wxAdapter.list.clear();
         wxAdapter.addSerarch(wxListBean.getData().getDatas());
     }
-
-    //下拉隐藏底部导航栏
-    private void initRecy() {
-        rv.setOnTouchListener(new View.OnTouchListener() {
-            public float mEndY;
-            public float mStartY;
-
-            @SuppressLint("RestrictedApi")
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                switch (event.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        mStartY = event.getY();
-                        break;
-                    case MotionEvent.ACTION_MOVE:
-                        mEndY = event.getY();
-                        float v1 = mEndY - mStartY;
-                        if (v1 > 1) {
-                            //我这个是在fragment中的操作 这个是获取activity中的布局
-                            getActivity().findViewById(R.id.toolBar).setVisibility(View.VISIBLE);
-                            getActivity().findViewById(R.id.tabLayout).setVisibility(View.VISIBLE);
-                            //这个就是当前页面的头布局id
-                            btnMain.setVisibility(View.VISIBLE);
-                        } else if (v1 < -1) {
-                            getActivity().findViewById(R.id.tabLayout).setVisibility(View.GONE);
-                            getActivity().findViewById(R.id.toolBar).setVisibility(View.GONE);
-                            btnMain.setVisibility(View.GONE);
-                        }
-                        break;
-                }
-                return gestureDetector.onTouchEvent(event);
-            }
-        });
-
-    }
-
-    GestureDetector gestureDetector = new GestureDetector(getContext(),
-            new GestureDetector.OnGestureListener() {
-                @Override
-                public boolean onDown(MotionEvent e) {
-                    return false;
-                }
-
-                @Override
-                public void onShowPress(MotionEvent e) {
-                }
-
-                @Override
-                public boolean onSingleTapUp(MotionEvent e) {
-                    // do something
-                    return true;
-                }
-
-                @Override
-                public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
-                    return false;
-                }
-
-                @Override
-                public void onLongPress(MotionEvent e) {
-                }
-
-                @Override
-                public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-                    return false;
-                }
-            });
 }

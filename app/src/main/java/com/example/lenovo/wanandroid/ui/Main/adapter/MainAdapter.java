@@ -8,19 +8,28 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.lenovo.wanandroid.R;
+import com.example.lenovo.wanandroid.app.Constants;
+import com.example.lenovo.wanandroid.model.bean.dao.DbBean;
 import com.example.lenovo.wanandroid.model.bean.main.BannerBean;
 import com.example.lenovo.wanandroid.model.bean.main.ListBean;
+import com.example.lenovo.wanandroid.model.bean.main.SearchBean;
 import com.example.lenovo.wanandroid.ui.Main.acrivity.BannerActivity;
+import com.example.lenovo.wanandroid.utils.MyDbHelper;
+import com.example.lenovo.wanandroid.utils.SpUtil;
 import com.youth.banner.Banner;
 import com.youth.banner.BannerConfig;
 import com.youth.banner.Transformer;
 import com.youth.banner.listener.OnBannerListener;
 import com.youth.banner.loader.ImageLoader;
+
+import org.greenrobot.greendao.DbUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,6 +130,36 @@ public class MainAdapter extends RecyclerView.Adapter {
                     li.OnItem(i);
                 }
             });
+            DbBean dbBean = new DbBean();
+            dbBean.setId(null);
+            dbBean.setImg(list.get(i).getLink());
+            dbBean.setName(list.get(i).getAuthor());
+            dbBean.setChanlename(list.get(i).getChapterName()+"/"+list.get(i).getSuperChapterName());
+            dbBean.setTitle(list.get(i).getTitle());
+            dbBean.setTime(list.get(i).getNiceDate());
+            if (MyDbHelper.getMyDbHelper().queryBean(dbBean)!=null){
+                holder1.cb.setChecked(true);
+            }else{
+                holder1.cb.setChecked(false);
+            }
+            holder1.cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                    DbBean dbBean = new DbBean();
+                    dbBean.setId(null);
+                    dbBean.setImg(list.get(i).getLink());
+                    dbBean.setName(list.get(i).getAuthor());
+                    dbBean.setChanlename(list.get(i).getChapterName()+"/"+list.get(i).getSuperChapterName());
+                    dbBean.setTitle(list.get(i).getTitle());
+                    dbBean.setTime(list.get(i).getNiceDate());
+                    if (b==false){
+                        List<DbBean> dbBeans1 = MyDbHelper.getMyDbHelper().query1(list.get(i).getAuthor(), list.get(i).getTitle());
+                        MyDbHelper.getMyDbHelper().delete(dbBeans1);
+                    }else if (b==true){
+                        MyDbHelper.getMyDbHelper().insert(dbBean);
+                    }
+                }
+            });
         }
     }
 
@@ -161,6 +200,9 @@ public class MainAdapter extends RecyclerView.Adapter {
         TextView mainTv3;
         @BindView(R.id.main_tv4)
         TextView mainTv4;
+        @BindView(R.id.cb)
+        CheckBox cb;
+
 
         ViewHolder1(View view) {
             super(view);

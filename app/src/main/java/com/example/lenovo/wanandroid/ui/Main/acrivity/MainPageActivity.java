@@ -26,11 +26,6 @@ import com.example.lenovo.wanandroid.model.bean.main.ListBean;
 import com.example.lenovo.wanandroid.presenter.Main.MainPresenter;
 import com.example.lenovo.wanandroid.utils.MyDbHelper;
 import com.example.lenovo.wanandroid.utils.StatusBarManager;
-import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.media.UMWeb;
-
 import java.util.List;
 
 import butterknife.BindView;
@@ -69,9 +64,6 @@ public class MainPageActivity extends BaseActivity<MainPresenter> implements Mai
         int color = ContextCompat.getColor(this, R.color.colorPrimary);
         StatusBarManager.setStatusBarColor(this, color);
         Intent intent = getIntent();
-//         intent.putExtra("author",datas.get(pos).getAuthor());
-//                intent.putExtra("chapterName",datas.get(pos).getChapterName()+"/"+datas.get(pos).getSuperChapterName());
-//                intent.putExtra("niceDate",datas.get(pos).getNiceDate());
         title = intent.getStringExtra("title");
         link = intent.getStringExtra("link");
         author = intent.getStringExtra("author");
@@ -100,15 +92,15 @@ public class MainPageActivity extends BaseActivity<MainPresenter> implements Mai
         });
 
 
-        List<DbBean> dbBeans = MyDbHelper.getMyDbHelper().query1(author, title);
+       List<DbBean> dbBeans = MyDbHelper.getMyDbHelper().query1(author, title);
         if (dbBeans!=null&&dbBeans.size()>0){
-            mainCheckbox.setBackgroundResource(R.drawable.follow);
+            mainCheckbox.setChecked(true);
         }else{
-            mainCheckbox.setBackgroundResource(R.drawable.follow_unselected);
+            mainCheckbox.setChecked(false);
         }
         DbBean dbBean = new DbBean();
         dbBean.setId(null);
-        dbBean.setImg(null);
+        dbBean.setImg(link);
         dbBean.setName(author);
         dbBean.setTime(niceDate);
         dbBean.setChanlename(chapterName);
@@ -117,11 +109,12 @@ public class MainPageActivity extends BaseActivity<MainPresenter> implements Mai
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (b==true){
-                    mainCheckbox.setBackgroundResource(R.drawable.follow);
                     MyDbHelper.getMyDbHelper().insert(dbBean);
                 }else if (b==false){
-                    mainCheckbox.setBackgroundResource(R.drawable.follow_unselected);
-                    MyDbHelper.getMyDbHelper().delete(dbBean);
+                    List<DbBean> dbBeans = MyDbHelper.getMyDbHelper().query1(author, title);
+                    if (dbBeans.size()>0){
+                        MyDbHelper.getMyDbHelper().delete(dbBeans);
+                    }
                 }
             }
         });
@@ -146,6 +139,8 @@ public class MainPageActivity extends BaseActivity<MainPresenter> implements Mai
         getMenuInflater().inflate(R.menu.menu_article_common, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -69,7 +69,6 @@ public class BannerActivity extends BaseActivity {
             }
         });
 
-
         img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -82,6 +81,7 @@ public class BannerActivity extends BaseActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 //        getMenuInflater().inflate(R.menu.menu_article_common,null);
+//        ((TextView) menu).setTextColor(context.getResources().getColor(R.color.white));
         getMenuInflater().inflate(R.menu.menu_article_common,menu);
         return super.onCreateOptionsMenu(menu);
     }

@@ -6,6 +6,7 @@ import com.example.lenovo.wanandroid.model.api.LoginServer;
 import com.example.lenovo.wanandroid.model.api.MainServer;
 import com.example.lenovo.wanandroid.model.api.ProjectServer;
 import com.example.lenovo.wanandroid.utils.SystemUtils;
+import com.google.gson.Gson;
 
 import java.io.File;
 import java.io.IOException;
@@ -37,7 +38,7 @@ public class HttpManger {
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url)
                 .client(getOkhttpClient())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(new Gson()))
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         return retrofit;

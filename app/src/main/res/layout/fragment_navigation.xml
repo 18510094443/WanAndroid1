@@ -12,8 +12,7 @@
         android:id="@+id/tablayout"
         android:layout_width="100dp"
         android:layout_height="match_parent"
-        android:background="@color/colorCard"
-        app:indicator_color="@color/colorPrimary"
+        android:background="@color/colorBackground"
         app:indicator_width="2dp"
         app:indicator_gravity="left"
         app:tab_height="50dp"
@@ -21,10 +20,28 @@
         app:tab_mode="scrollable">
     </q.rorbin.verticaltablayout.VerticalTabLayout>
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv"
-        android:layout_width="match_parent"
+    <RelativeLayout
         android:layout_toRightOf="@id/tablayout"
-        android:layout_height="match_parent" />
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/btn_main"
+            android:backgroundTint="@color/colorPrimary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentBottom="true"
+            android:src="@mipmap/icon_up_arrow"
+            app:elevation="15dp"
+            android:layout_marginBottom="@dimen/dp_64"
+            android:layout_marginRight="@dimen/dp_10"
+            />
+    </RelativeLayout>
+
+
 </RelativeLayout>

@@ -10,11 +10,13 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/tool"
         android:background="@color/colorPrimary"
+        android:theme="@style/toolbar"
+        app:titleTextColor="#ffffff"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <ImageView
             android:id="@+id/img"
-            android:src="@drawable/ic_action_navigation_arrow_back"
+            android:src="@drawable/ic_webback"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
 
@@ -22,6 +24,7 @@
             android:id="@+id/tv"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
     </android.support.v7.widget.Toolbar>

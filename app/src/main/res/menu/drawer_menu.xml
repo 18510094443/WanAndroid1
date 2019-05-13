@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:id="@+id/other">
+    <group>
         <item android:id="@+id/nav_item_wan_android"
             android:icon="@drawable/ic_wan_android"
             android:title="@string/app_name"
@@ -9,7 +9,7 @@
             android:checked="true" />
 
         <item android:id="@+id/nav_item_my_collect"
-            android:icon="@drawable/icon_like"
+            android:icon="@drawable/icon_like_article_not_selected"
             android:title="@string/my_collect"
             android:checkable="true" />
 

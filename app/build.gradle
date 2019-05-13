@@ -13,12 +13,19 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         //添加到此处
         multiDexEnabled true
+        flavorDimensions "default"
+        ndk {
+            // 设置支持的SO库架构
+            abiFilters 'armeabi' //, 'x86', 'armeabi-v7a', 'x86_64', 'arm64-v8a'
+        }
     }
 
 
     buildTypes {
         release {
-            minifyEnabled false
+            //启用res资源过滤，会将项目中未使用到的图片变成1x1的小图，从而减少体积
+            shrinkResources true
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -27,6 +34,17 @@ android {
         targetCompatibility = '1.8'
     }
 
+
+    productFlavors {
+        kuan {
+            manifestPlaceholders = [UMENG_CHANNEL_VALUE: "kuan"]
+        }
+    }
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['libs']
+        }
+    }
     //greenDao指定版本和路劲等
     greendao {
         //数据库的schema版本，也可以理解为数据库版本号
@@ -36,12 +54,10 @@ android {
         //设置DaoMaster、DaoSession、Dao目录
         targetGenDir 'src/main/java'
     }
-
-
 }
 
 dependencies {
-    implementation fileTree(include: ['*.jar', "**/*.jar"], dir: 'libs')
+    implementation fileTree(include: ['*.jar', '**/*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.android.support:support-v4:28.0.0'
@@ -72,7 +88,7 @@ dependencies {
     //network
     implementation 'com.google.code.gson:gson:2.7'
     implementation 'com.squareup.okhttp3:okhttp:3.6.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
     //glide
     implementation 'com.github.bumptech.glide:glide:4.6.1'
     //    implementation 'com.github.chrisbanes:PhotoView:2.0.0'
@@ -85,19 +101,15 @@ dependencies {
     //没有使用特殊Header，可以不加这行
     implementation 'com.miguelcatalan:materialsearchview:1.4.0'
     implementation 'org.jsoup:jsoup:1.11.3'
-//    implementation files('libs/bugly_crash_release.jar')
-
+    //    implementation files('libs/bugly_crash_release.jar')
     implementation 'com.airbnb.android:lottie:2.2.0'
-
     // 垂直Tab栏
     implementation 'q.rorbin:VerticalTabLayout:1.2.5'
-
+    //noinspection GradleCompatible
     implementation 'com.android.support:support-v4:23.1.1'
     implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.2@aar'
-    /*//noinspection GradleCompatible
-    implementation 'com.android.support:support-v4:23.1.1'
-    implementation 'com.flyco.tablayout:FlycoTabLayout_Lib:2.0.2@aar'*/
-
     //添加到此处
-    implementation 'com.android.support:multidex:1.0.3'
+    implementation files('libs/umeng-common-1.5.3.jar')
+    implementation 'com.tencent.bugly:crashreport:latest.release' //其中latest.release指代最新Bugly SDK版本号，也可以指定明确的版本号，例如2.2.0
+    implementation 'com.tencent.bugly:nativecrashreport:latest.release' //其中latest.release指代最新Bugly NDK版本号，也可以指定明确的版本号，例如3.0
 }

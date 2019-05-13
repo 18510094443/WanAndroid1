@@ -1,11 +1,11 @@
 package com.example.lenovo.wanandroid;
 
 
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -14,9 +14,7 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,6 +23,7 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.example.lenovo.wanandroid.app.Constants;
@@ -36,7 +35,6 @@ import com.example.lenovo.wanandroid.model.bean.Login.VerifyBean;
 import com.example.lenovo.wanandroid.presenter.login.LoginPresenter;
 import com.example.lenovo.wanandroid.ui.Main.acrivity.SerachActivity;
 import com.example.lenovo.wanandroid.ui.Main.fragment.ChangActivity;
-import com.example.lenovo.wanandroid.ui.Main.fragment.ChangFragment;
 import com.example.lenovo.wanandroid.ui.Main.fragment.MainPageFragment;
 import com.example.lenovo.wanandroid.ui.about.AboutActivity;
 import com.example.lenovo.wanandroid.ui.collect.CollectFragment;
@@ -47,6 +45,7 @@ import com.example.lenovo.wanandroid.ui.project.fragment.ProjectFragment;
 import com.example.lenovo.wanandroid.ui.setting.SeetingFragment;
 import com.example.lenovo.wanandroid.ui.wx.fragment.WxFragment;
 import com.example.lenovo.wanandroid.utils.CircularAnimUtil;
+import com.example.lenovo.wanandroid.utils.HindMain;
 import com.example.lenovo.wanandroid.utils.SpUtil;
 import com.example.lenovo.wanandroid.utils.StatusBarManager;
 
@@ -129,8 +128,10 @@ public class MainActivity extends BaseActivity<LoginPresenter> implements LoginC
                 mContent.setScaleY(endScale);
             }
         };
+        toggle.getDrawerArrowDrawable().setColor(getResources().getColor(R.color.white));
         toggle.syncState();
         mDl.addDrawerListener(toggle);
+
 
         //解决侧滑菜单menu部分图标不显示
         mNv.setItemIconTintList(null);
@@ -140,9 +141,9 @@ public class MainActivity extends BaseActivity<LoginPresenter> implements LoginC
         View headerView = mNv.getHeaderView(0);
         tv = headerView.findViewById(R.id.nav_header_login_tv);
         tv.setText(string);
-        if(tv.getText().toString().equals("未登录")){
+        if (tv.getText().toString().equals("未登录")) {
 
-        }else{
+        } else {
             Map<String, String> map = new HashMap<>();
             map.put("username", string);
             map.put("password", string1);
@@ -151,7 +152,7 @@ public class MainActivity extends BaseActivity<LoginPresenter> implements LoginC
         tv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                 startActivity(intent);
             }
         });
@@ -162,23 +163,24 @@ public class MainActivity extends BaseActivity<LoginPresenter> implements LoginC
                 item.setChecked(true);
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 FragmentTransaction transaction = fragmentManager.beginTransaction();
-                switch (item.getItemId()){
+                switch (item.getItemId()) {
                     case R.id.nav_item_wan_android:
+                        mTv.setText("首页");
                         mTabLayout.setVisibility(View.VISIBLE);
                         transaction.replace(R.id.fl_container, mFragments.get(0)).commit();
                         mDl.closeDrawer(Gravity.LEFT);
                         break;
                     case R.id.nav_item_my_collect:
-                        if (tv.getText().equals("未登录")){
-                            Intent intent = new Intent(MainActivity.this,LoginActivity.class);
+                        /*if (tv.getText().equals("未登录")) {
+                            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                             intent.setClass(MainActivity.this, LoginActivity.class);
-                            CircularAnimUtil.startActivity(MainActivity.this, intent,mFlContainer, R.color.fab_bg);
-                        }else{
+                            CircularAnimUtil.startActivity(MainActivity.this, intent, mFlContainer, R.color.fab_bg);
+                        } else {*/
                             mTv.setText("收藏");
                             mTabLayout.setVisibility(View.GONE);
                             transaction.replace(R.id.fl_container, mFragments.get(5)).commit();
                             mDl.closeDrawers();
-                        }
+//                        }
                         break;
                     case R.id.nav_item_setting:
                         mTv.setText("设置");
@@ -187,9 +189,9 @@ public class MainActivity extends BaseActivity<LoginPresenter> implements LoginC
                         mDl.closeDrawers();
                         break;
                     case R.id.nav_item_about_us:
-                        Intent intent = new Intent(MainActivity.this,AboutActivity.class);
+                        Intent intent = new Intent(MainActivity.this, AboutActivity.class);
                         intent.setClass(MainActivity.this, AboutActivity.class);
-                        CircularAnimUtil.startActivity(MainActivity.this, intent,mFlContainer, R.color.fab_bg);
+                        CircularAnimUtil.startActivity(MainActivity.this, intent, mFlContainer, R.color.fab_bg);
                         break;
                 }
                 return false;
@@ -376,14 +378,14 @@ public class MainActivity extends BaseActivity<LoginPresenter> implements LoginC
                 mTabLayout.setVisibility(View.GONE);
                 transaction.replace(R.id.fl_container,changFragment ).commit();*/
 //                intent跳转 带颜色跳
-                Intent intent = new Intent(MainActivity.this,ChangActivity.class);
+                Intent intent = new Intent(MainActivity.this, ChangActivity.class);
                 intent.setClass(MainActivity.this, ChangActivity.class);
-                CircularAnimUtil.startActivity(MainActivity.this, intent,mToolBar, R.color.fab_bg);
+                CircularAnimUtil.startActivity(MainActivity.this, intent, mToolBar, R.color.fab_bg);
                 break;
             case R.id.action_search:
-                Intent intent1 = new Intent(MainActivity.this,SerachActivity.class);
+                Intent intent1 = new Intent(MainActivity.this, SerachActivity.class);
                 intent1.setClass(MainActivity.this, SerachActivity.class);
-                CircularAnimUtil.startActivity(MainActivity.this, intent1,mToolBar, R.color.fab_bg);
+                CircularAnimUtil.startActivity(MainActivity.this, intent1, mToolBar, R.color.fab_bg);
                 break;
             default:
                 break;
@@ -395,7 +397,7 @@ public class MainActivity extends BaseActivity<LoginPresenter> implements LoginC
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        SpUtil.setParam(Constants.DAY_NIGHT_FRAGMENT_POS,mFragments.get(0));
+        SpUtil.setParam(Constants.DAY_NIGHT_FRAGMENT_POS, mFragments.get(0));
     }
 
     @Override
@@ -414,31 +416,32 @@ public class MainActivity extends BaseActivity<LoginPresenter> implements LoginC
     }
 
 
+
     /**
      * 获取进程号对应的进程名
      *
      * @param pid 进程号
      * @return 进程名
     private static String getProcessName(int pid) {
-        BufferedReader reader = null;
-        try {
-            reader = new BufferedReader(new FileReader("/proc/" + pid + "/cmdline"));
-            String processName = reader.readLine();
-            if (!TextUtils.isEmpty(processName)) {
-                processName = processName.trim();
-            }
-            return processName;
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-        } finally {
-            try {
-                if (reader != null) {
-                    reader.close();
-                }
-            } catch (IOException exception) {
-                exception.printStackTrace();
-            }
-        }
-        return null;
+    BufferedReader reader = null;
+    try {
+    reader = new BufferedReader(new FileReader("/proc/" + pid + "/cmdline"));
+    String processName = reader.readLine();
+    if (!TextUtils.isEmpty(processName)) {
+    processName = processName.trim();
+    }
+    return processName;
+    } catch (Throwable throwable) {
+    throwable.printStackTrace();
+    } finally {
+    try {
+    if (reader != null) {
+    reader.close();
+    }
+    } catch (IOException exception) {
+    exception.printStackTrace();
+    }
+    }
+    return null;
     }*/
 }

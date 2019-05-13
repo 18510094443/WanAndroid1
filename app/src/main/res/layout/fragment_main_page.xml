@@ -29,7 +29,8 @@
                 android:layout_alignParentBottom="true"
                 android:src="@mipmap/icon_up_arrow"
                 app:elevation="15dp"
-                android:layout_margin="15dp"/>
+                android:layout_marginBottom="@dimen/dp_64"
+                android:layout_marginRight="@dimen/dp_10"/>
         </RelativeLayout>
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 

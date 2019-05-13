@@ -1,7 +1,6 @@
 package com.example.lenovo.wanandroid.app;
 
 import android.app.Application;
-import android.support.multidex.MultiDex;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatDelegate;
 import android.util.DisplayMetrics;
@@ -16,7 +15,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.footer.BallPulseFooter;
 import com.tencent.bugly.crashreport.CrashReport;
 import com.umeng.commonsdk.UMConfigure;
-import com.umeng.socialize.PlatformConfig;
+
 
 public class MyApp extends Application {
 
@@ -32,18 +31,18 @@ public class MyApp extends Application {
     public void onCreate() {
         super.onCreate();
         // 主要是添加下面这句代码
-        MultiDex.install(this);
+//        MultiDex.install(this);
         app=this;
-//        CrashReport.initCrashReport(getApplicationContext(), "a88aeb13b5", true);
+        CrashReport.initCrashReport(getApplicationContext(), "e4a47e12d5", true);
         inUmeng();
         getScreenWH();
         setDayNightMode();
     }
 
     private void inUmeng() {
-        UMConfigure.init(this,"5a12384aa40fa3551f0001d1"
+        UMConfigure.init(this,"5cc79a1d570df33b5d0004d7"
                 ,"umeng",UMConfigure.DEVICE_TYPE_PHONE,"");//58edcfeb310c93091c000be2 5965ee00734be40b580001a0
-        PlatformConfig.setWeixin("wxdc1e388c3822c80b", "3baf1193c85774b3fd9d18447d76cab0");
+        /*PlatformConfig.setWeixin("wxdc1e388c3822c80b", "3baf1193c85774b3fd9d18447d76cab0");
         //豆瓣RENREN平台目前只能在服务器端配置
         PlatformConfig.setSinaWeibo("3921700954", "04b48b094faeb16683c32669824ebdad","http://sns.whalecloud.com");
         PlatformConfig.setYixin("yxc0614e80c9304c11b0391514d09f13bf");
@@ -55,7 +54,7 @@ public class MyApp extends Application {
         PlatformConfig.setKakao("e4f60e065048eb031e235c806b31c70f");
         PlatformConfig.setDing("dingoalmlnohc0wggfedpk");
         PlatformConfig.setVKontakte("5764965","5My6SNliAaLxEm3Lyd9J");
-        PlatformConfig.setDropbox("oz8v5apet3arcdy","h7p2pjbzkkxt02a");
+        PlatformConfig.setDropbox("oz8v5apet3arcdy","h7p2pjbzkkxt02a");*/
 //            PlatformConfig.setYnote("9c82bf470cba7bd2f1819b0ee26f86c6ce670e9b");
     }
 

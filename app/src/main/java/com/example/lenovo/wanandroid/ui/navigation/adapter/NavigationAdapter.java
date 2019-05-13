@@ -1,5 +1,6 @@
 package com.example.lenovo.wanandroid.ui.navigation.adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,7 @@ import com.example.lenovo.wanandroid.ui.Main.acrivity.MainPageActivity;
 import com.example.lenovo.wanandroid.ui.login.activity.LoginActivity;
 import com.example.lenovo.wanandroid.ui.navigation.acrivity.NavigationActivity;
 import com.example.lenovo.wanandroid.utils.CircularAnimUtil;
+import com.example.lenovo.wanandroid.utils.CommonUtils;
 import com.example.lenovo.wanandroid.widget.FlowLayout;
 
 import java.util.ArrayList;
@@ -52,7 +54,7 @@ public class NavigationAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int pos) {
         ViewHolder holder = (ViewHolder) viewHolder;
         holder.tv.setText(list.get(pos).getName());
-        if (pos % 4 == 0) {
+       /* if (pos % 4 == 0) {
             holder.tv.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
         } else if (pos % 4 == 1) {
             holder.tv.setTextColor(ContextCompat.getColor(context, R.color.gold_title));
@@ -60,7 +62,7 @@ public class NavigationAdapter extends RecyclerView.Adapter {
             holder.tv.setTextColor(ContextCompat.getColor(context, R.color.light_red));
         } else if (pos % 4 == 3) {
             holder.tv.setTextColor(ContextCompat.getColor(context, R.color.blue));
-        }
+        }*/
         List<NavigationBean.DataBean.ArticlesBean> bean = list.get(pos).getArticles();
 //        holder.fl.removeAllViews();
         for (int i = 0; i < bean.size(); i++) {
@@ -69,7 +71,7 @@ public class NavigationAdapter extends RecyclerView.Adapter {
             view.setText(bean.get(i).getTitle());
             view.setTextColor(Color.BLUE);
 //            view.setBackgroundDrawable(getResources().getDrawable(R.drawable.textview_bg));
-            if (i % 4 == 0) {
+           /* if (i % 4 == 0) {
                 view.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
             } else if (i % 4 == 1) {
                 view.setTextColor(ContextCompat.getColor(context, R.color.gold_title));
@@ -77,7 +79,8 @@ public class NavigationAdapter extends RecyclerView.Adapter {
                 view.setTextColor(ContextCompat.getColor(context, R.color.light_red));
             } else if (i % 4 == 3) {
                 view.setTextColor(ContextCompat.getColor(context, R.color.blue));
-            }
+            }*/
+            view.setTextColor(CommonUtils.randomColor());
 
             int finalI = i;
             view.setOnClickListener(new View.OnClickListener() {

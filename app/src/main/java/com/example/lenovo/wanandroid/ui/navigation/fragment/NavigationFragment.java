@@ -3,6 +3,8 @@ package com.example.lenovo.wanandroid.ui.navigation.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +18,7 @@ import com.example.lenovo.wanandroid.interfaces.navigation.NacigationContract;
 import com.example.lenovo.wanandroid.model.bean.navigation.NavigationBean;
 import com.example.lenovo.wanandroid.presenter.navigation.NavigationPresenter;
 import com.example.lenovo.wanandroid.ui.navigation.adapter.NavigationAdapter;
+import com.example.lenovo.wanandroid.utils.HindMain;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,17 +43,15 @@ public class NavigationFragment extends BaseFragment<NavigationPresenter> implem
     @BindView(R.id.rv)
     RecyclerView rv;
     Unbinder unbinder;
+    @BindView(R.id.btn_main)
+    FloatingActionButton btnMain;
+    Unbinder unbinder1;
     private boolean move;
     private int mIndex;
     private LinearLayoutManager layoutManager;
     private List<NavigationBean.DataBean> list;
     private NavigationAdapter navigationAdapter;
     private boolean isScroll;
-    /*@BindView(R.id.vp)
-    VerticalPager vp;
-    Unbinder unbinder;*/
-    /*@BindView(R.id.navigation_RecyclerView)
-    RecyclerView mRecyclerView;*/
 
     @Override
     protected NavigationPresenter createpresenter() {
@@ -73,17 +74,29 @@ public class NavigationFragment extends BaseFragment<NavigationPresenter> implem
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 //在这里进行第二次滚动（最后的100米！）
-                if (move ){
+                if (move) {
                     move = false;
                     //获取要置顶的项在当前屏幕的位置，mIndex是记录的要置顶项在RecyclerView中的位置
                     int n = mIndex - layoutManager.findFirstVisibleItemPosition();
-                    if ( 0 <= n && n < rv.getChildCount()){
+                    if (0 <= n && n < rv.getChildCount()) {
                         //获取要置顶的项顶部离RecyclerView顶部的距离
                         int top = rv.getChildAt(n).getTop();
                         //最后的移动
                         rv.scrollBy(0, top);
                     }
                 }
+            }
+        });
+        TabLayout tab = getActivity().findViewById(R.id.tabLayout);
+//        FloatingActionButton flb = getActivity().findViewById(R.id.main_ft);
+        HindMain.hind(rv, tab, btnMain);
+        //点击悬浮按钮回到顶部并显示隐藏的toolbar与底部导航栏
+        btnMain.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rv.smoothScrollToPosition(0);
+                getActivity().findViewById(R.id.toolBar).setVisibility(View.VISIBLE);
+                getActivity().findViewById(R.id.tabLayout).setVisibility(View.VISIBLE);
             }
         });
     }
@@ -171,7 +184,8 @@ public class NavigationFragment extends BaseFragment<NavigationPresenter> implem
         List<NavigationBean.DataBean> data = navigationBean.getData();
         for (int i = 0; i < data.size(); i++) {
             tablayout.addTab(new QTabView(getContext()));
-    }
+        }
+
         tablayout.setTabAdapter(new TabAdapter() {
             @Override
             public int getCount() {
@@ -214,14 +228,14 @@ public class NavigationFragment extends BaseFragment<NavigationPresenter> implem
         int firstItem = layoutManager.findFirstVisibleItemPosition();
         int lastItem = layoutManager.findLastVisibleItemPosition();
         //然后区分情况
-        if (n <= firstItem ){
+        if (n <= firstItem) {
             //当要置顶的项在当前显示的第一个项的前面时
             rv.scrollToPosition(n);
-        }else if ( n <= lastItem ){
+        } else if (n <= lastItem) {
             //当要置顶的项已经在屏幕上显示时
             int top = rv.getChildAt(n - firstItem).getTop();
             rv.scrollBy(0, top);
-        }else{
+        } else {
             //当要置顶的项在当前显示的最后一项的后面时
             rv.scrollToPosition(n);
             //这里这个变量是用在RecyclerView滚动监听里面的

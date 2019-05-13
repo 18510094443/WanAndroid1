@@ -61,4 +61,10 @@ public class MyDbHelper {
                         DbBeanDao.Properties.Title.eq(title)).list();
     }
 
+    public void delete(List<DbBean> dbBeans1) {
+        dbBeanDao.deleteInTx(dbBeans1);
+    }
+    public DbBean queryBean(DbBean dbBean){
+        return dbBeanDao.queryBuilder().where(DbBeanDao.Properties.Title.eq(dbBean.getTitle())).unique();
+    }
 }
